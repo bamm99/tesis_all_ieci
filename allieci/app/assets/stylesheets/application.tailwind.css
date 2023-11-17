@@ -5,6 +5,8 @@
 html, body {
     color: #fff;
     height: 100%;
-    background-image: url('/assets/background.jpg'); /* Ruta relativa a tu imagen */
+    background-image: radial-gradient(at left bottom, rgb(15, 23, 42), rgb(88, 28, 135), rgb(15, 23, 42)) ;/* Ruta relativa a tu imagen */
     background-size: cover;
   }
+
+  
