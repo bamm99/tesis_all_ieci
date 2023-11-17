@@ -1,8 +1,23 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  # before_action :configure_sign_in_params, only: [:create]
+  #before_action :configure_sign_in_params, only: [:create]
+  # DELETE /resource/sign_out
+  def destroy
+    super
+  end
 
+  def after_sign_in_path_for(resource)
+    if resource.alumno?
+      alumno_home_path
+    elsif resource.profesor?
+      profesor_home_path
+    elsif resource.admin?
+      admin_home_path
+    else
+      root_path
+    end
+  end
   # GET /resource/sign_in
   # def new
   #   super
@@ -13,10 +28,7 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+
 
   # protected
 

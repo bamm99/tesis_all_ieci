@@ -1,26 +1,37 @@
-<h2>Log in</h2>
+<%= render 'shared/header' %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+<h2 style="text-align:center">Log in</h2>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<body style="font-family: 'Ubuntu Monospace', monospace;" class=" items-center justify-center h-screen">  
+<div class="w-full max-w-md p-6 mx-auto">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>      
+    
+    <div class="mb-4">
+      <%= f.label :email, class: "block  text-sm font-bold mb-2" %>
+      <%= f.email_field :email, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-6">
+      <%= f.label :password, class: "block  text-sm font-bold mb-2" %>
+      <%= f.password_field :password, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+    <% if devise_mapping.rememberable? %>
+      <div class="mb-6">
+        <%= f.check_box :remember_me, class: "mr-2 leading-tight" %>
+        <%= f.label :remember_me, class: "text-sm font-bold" %>
+      </div>
+    <% end %>
+
+    <div class="text-center">
+      <div class=" items-center justify-between">
+        <%= f.submit "Log in", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
     </div>
   <% end %>
+</div> 
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="text-center mt-2">
+  <%= render "devise/shared/links" %>
+</div>
+</body>
