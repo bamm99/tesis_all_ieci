@@ -1,0 +1,21 @@
+
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  host: all-ieci.cxpz6f0d2ijq.sa-east-1.rds.amazonaws.com
+  database: allieci
+  username: postgres
+  password: 200086244
+
+production:
+  <<: *default
+  host: all-ieci.cxpz6f0d2ijq.sa-east-1.rds.amazonaws.com
+  database: allieci
+  username: postgres
+  password: 200086244
