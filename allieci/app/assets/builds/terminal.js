@@ -6523,13 +6523,53 @@ WARNING: This link could potentially be dangerous`)) {
   var import_xterm = __toESM(require_xterm());
 
   // app/javascript/menu_estudiante/docs_asig.js
-  function docs_asig(terminal) {
-    terminal.writeln("Documentos asignaturas:");
+  function docs_asig(terminal, setCommandHandler) {
+    terminal.writeln("Semestre de la asignatura que buscas (1-8)?:");
+    setCommandHandler((input) => handleSemestreInput(input, terminal, setCommandHandler));
+  }
+  function handleSemestreInput(input, terminal, setCommandHandler) {
+    const semestre = parseInt(input);
+    if (isNaN(semestre) || semestre < 1 || semestre > 8) {
+      terminal.writeln("Por favor, ingresa un n\xFAmero de semestre v\xE1lido (1-8).");
+      return;
+    }
+    mostrarAsignaturasPorSemestre(semestre, terminal);
+    setCommandHandler((input2) => handleAsignaturaInput(input2, semestre, terminal, setCommandHandler));
+  }
+  function mostrarAsignaturasPorSemestre(semestre, terminal) {
+    const semestres2 = [
+      ["Algebra 1", "Nociones de Computacion e Informatica", "Algoritmos y Bases de la Programacion", "Introduccion a la Ingenieria", "Comunicacion y Argumentacion"],
+      ["Algebra 2", "Calculo 1", "Algoritmos y Programacion", "Estructuras Discretas para Ciencias de la Programacion"],
+      ["Estadisticas y Probabilidades", "Calculo 2", "Estructura de Datos", "Administracion General", "Economia"],
+      ["Arquitectura de Computadores", "Paradigmas de la Programacion", "Analisis de Algoritmos y Teoria de Automatas", "Ingles 1", "Practica Profesional 1"],
+      ["Metodologia de Desarrollo", "Base de Datos", "Sistemas de Informacion", "Sistemas Financieros y Contables", "Ingles 2"],
+      ["Inteligencia Artificial", "Sistemas Operativos", "Ingenieria de Software", "Formulacion y Evaluacion de Proyectos", "Ingles 3", "Electivos de Especialidad"],
+      ["Electivos de Especialidad", "Comunicacion de Datos y Redes", "Taller de Desarrollo", "Gestion Empresarial", "Ingles 4"],
+      ["Electivos de Especialidad", "Proyecto Final de Carrera"]
+    ];
+    terminal.writeln(`Asignaturas del semestre ${semestre}:`);
+    semestres2[semestre - 1].forEach((asignatura, index) => {
+      terminal.writeln(`${index + 1}. ${asignatura}`);
+    });
+  }
+  function handleAsignaturaInput(input, semestre, terminal, setCommandHandler) {
+    const asignaturaIndex = parseInt(input) - 1;
+    if (isNaN(asignaturaIndex) || asignaturaIndex < 0 || asignaturaIndex >= semestres[semestre - 1].length) {
+      terminal.writeln("Por favor, ingresa un n\xFAmero de asignatura v\xE1lido.");
+      return;
+    }
+    mostrarDocumentos(asignaturaIndex, terminal);
+  }
+  function mostrarDocumentos(asignaturaIndex, terminal) {
+    terminal.writeln("Documentos disponibles:");
+    terminal.writeln("1. documento1.pdf");
+    terminal.writeln("2. documento2.pdf");
+    terminal.writeln("3. documento3.pdf");
   }
 
   // app/javascript/menu_estudiante/ver_malla.js
   function ver_malla(terminal) {
-    const semestres = [
+    const semestres2 = [
       ["Algebra 1", "Nociones de Computacion e Informatica", "Algoritmos y Bases de la Programacion", "Introduccion a la Ingenieria", "Comunicacion y Argumentacion"],
       ["Algebra 2", "Calculo 1", "Algoritmos y Programacion", "Estructuras Discretas para Ciencias de la Programacion"],
       ["Estadisticas y Probabilidades", "Calculo 2", "Estructura de Datos", "Administracion General", "Economia"],
@@ -6541,7 +6581,7 @@ WARNING: This link could potentially be dangerous`)) {
     ];
     function verTodasAsignaturas() {
       terminal.writeln("Asignaturas por semestre:");
-      semestres.forEach((asignaturas, indiceSemestre) => {
+      semestres2.forEach((asignaturas, indiceSemestre) => {
         terminal.writeln(`Semestre ${indiceSemestre + 1}:`);
         asignaturas.forEach((asignatura, indice) => {
           terminal.writeln(`${indice + 1}. ${asignatura}`);
