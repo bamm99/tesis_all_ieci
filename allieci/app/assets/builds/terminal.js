@@ -6520,7 +6520,15 @@ WARNING: This link could potentially be dangerous`)) {
   });
 
   // app/javascript/terminal.js
+  var import_xterm3 = __toESM(require_xterm());
+
+  // app/javascript/menu_estudiante/index.js
   var import_xterm = __toESM(require_xterm());
+
+  // app/javascript/control_entrada.js
+  function activarEntrada(estado) {
+    estado.esperandoEntrada = true;
+  }
 
   // app/javascript/menu_estudiante/docs_asig.js
   function docs_asig(terminal, setCommandHandler) {
@@ -6590,6 +6598,9 @@ WARNING: This link could potentially be dangerous`)) {
       });
     }
     verTodasAsignaturas();
+    terminal.writeln("----------------------------------------");
+    terminal.writeln("Presione Enter para regresar al men\xFA principal.");
+    terminal.writeln("----------------------------------------");
   }
 
   // app/javascript/menu_estudiante/cursos_linux.js
@@ -6612,14 +6623,22 @@ WARNING: This link could potentially be dangerous`)) {
     terminal.writeln("3. Ver curso de autoaprendizaje Linux");
     terminal.writeln("----------------------------------------");
     terminal.write("Ingrese una opcion: ");
+    activarEntrada(terminal);
+    viendoMalla = false;
   }
   function procesarOpcion(opcion, terminal) {
+    if (viendoMalla) {
+      mostrarMenuPrincipal(terminal);
+      viendoMalla = false;
+      return;
+    }
     switch (opcion) {
       case "1":
         docs_asig(terminal);
         break;
       case "2":
         ver_malla(terminal);
+        viendoMalla = true;
         break;
       case "3":
         cursos_linux(terminal);
@@ -6633,7 +6652,7 @@ WARNING: This link could potentially be dangerous`)) {
 
   // app/javascript/terminal.js
   document.addEventListener("DOMContentLoaded", () => {
-    const terminal = new import_xterm.Terminal({
+    const terminal = new import_xterm3.Terminal({
       cols: 80,
       rows: 28,
       theme: {
@@ -6647,12 +6666,22 @@ WARNING: This link could potentially be dangerous`)) {
     terminal.focus();
     mostrarMenuPrincipal(terminal);
     let inputBuffer = "";
+    let estado = {
+      esperandoEntrada: true
+    };
     terminal.onKey(({ key, domEvent }) => {
-      if (domEvent.keyCode === 13) {
+      const charCode = typeof domEvent.which == "number" ? domEvent.which : domEvent.keyCode;
+      const isEnter = charCode === 13;
+      const isBackspace = charCode === 8;
+      const isArrowKey = [37, 38, 39, 40].includes(charCode);
+      if (!estado.esperandoEntrada || isArrowKey) {
+        return;
+      }
+      if (isEnter) {
         terminal.write("\r\n");
         procesarOpcion(inputBuffer.trim(), terminal);
         inputBuffer = "";
-      } else if (domEvent.keyCode === 8) {
+      } else if (isBackspace) {
         if (inputBuffer.length > 0) {
           inputBuffer = inputBuffer.substring(0, inputBuffer.length - 1);
           terminal.write("\b \b");

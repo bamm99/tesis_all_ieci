@@ -1700,3 +1700,248 @@ Processing by AlumnoHomeController#index as HTML
 Completed 200 OK in 3171ms (Views: 431.6ms | ActiveRecord: 1484.0ms | Allocations: 76941)
 
 
+Started GET "/" for 127.0.0.1 at 2023-11-17 11:45:31 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (59.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 77.6ms | Allocations: 1983)
+  Rendered layout layouts/application.html.erb (Duration: 81.0ms | Allocations: 2834)
+Completed 200 OK in 298ms (Views: 132.5ms | ActiveRecord: 0.0ms | Allocations: 7905)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2023-11-17 11:45:35 -0300
+Processing by Users::SessionsController#new as HTML
+  [1m[36mUser Load (58.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/alumno_home/index
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 1656ms (ActiveRecord: 887.0ms | Allocations: 26727)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-17 11:45:37 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (59.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 1.0ms | Allocations: 356)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 3.9ms | Allocations: 783)
+  Rendered layout layouts/application.html.erb (Duration: 5.0ms | Allocations: 1136)
+Completed 200 OK in 134ms (Views: 10.4ms | ActiveRecord: 59.9ms | Allocations: 3135)
+
+
+Started GET "/" for ::1 at 2023-11-17 12:15:03 -0300
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 0.3ms | Allocations: 94)
+  Rendered layout layouts/application.html.erb (Duration: 2.0ms | Allocations: 473)
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.0ms | Allocations: 724)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2023-11-17 12:55:44 -0300
+Processing by Users::SessionsController#destroy as HTML
+  [1m[36mUser Load (58.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/
+Completed 303 See Other in 1417ms (ActiveRecord: 593.9ms | Allocations: 12657)
+
+
+Started GET "/" for 127.0.0.1 at 2023-11-17 12:55:46 -0300
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 0.3ms | Allocations: 282)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | Allocations: 654)
+Completed 200 OK in 2ms (Views: 2.2ms | ActiveRecord: 0.0ms | Allocations: 901)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2023-11-17 12:55:52 -0300
+Processing by Users::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered shared/_header.html.erb (Duration: 0.7ms | Allocations: 175)
+  Rendered devise/shared/_links.html.erb (Duration: 1.8ms | Allocations: 727)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 139.5ms | Allocations: 5289)
+  Rendered layout layouts/application.html.erb (Duration: 140.5ms | Allocations: 5708)
+Completed 200 OK in 228ms (Views: 185.5ms | ActiveRecord: 0.0ms | Allocations: 7725)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2023-11-17 12:56:00 -0300
+Processing by Users::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"email"=>"benja@benja.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (59.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "benja@benja.com"], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/alumno_home/index
+Completed 303 See Other in 476ms (ActiveRecord: 59.4ms | Allocations: 6092)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-17 12:56:01 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (59.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 0.1ms | Allocations: 85)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 0.6ms | Allocations: 233)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | Allocations: 579)
+Completed 200 OK in 123ms (Views: 2.3ms | ActiveRecord: 59.6ms | Allocations: 2296)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2023-11-17 14:04:50 -0300
+Processing by Users::SessionsController#destroy as HTML
+  [1m[36mUser Load (60.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/
+Completed 303 See Other in 1234ms (ActiveRecord: 591.0ms | Allocations: 4648)
+
+
+Started GET "/" for 127.0.0.1 at 2023-11-17 14:04:51 -0300
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 0.4ms | Allocations: 287)
+  Rendered layout layouts/application.html.erb (Duration: 2.2ms | Allocations: 659)
+Completed 200 OK in 3ms (Views: 3.2ms | ActiveRecord: 0.0ms | Allocations: 905)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2023-11-17 14:04:52 -0300
+Processing by Users::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered shared/_header.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 234)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 3.5ms | Allocations: 1150)
+  Rendered layout layouts/application.html.erb (Duration: 4.3ms | Allocations: 1513)
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.0ms | Allocations: 2237)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2023-11-17 14:04:59 -0300
+Processing by Users::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"email"=>"benja@benja.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (58.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "benja@benja.com"], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/alumno_home/index
+Completed 303 See Other in 368ms (ActiveRecord: 58.5ms | Allocations: 2468)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-17 14:05:00 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (59.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 0.2ms | Allocations: 85)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 0.7ms | Allocations: 233)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | Allocations: 578)
+Completed 200 OK in 126ms (Views: 2.2ms | ActiveRecord: 59.6ms | Allocations: 2293)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 13:27:39 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (72.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 0.9ms | Allocations: 84)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 3.5ms | Allocations: 232)
+  Rendered layout layouts/application.html.erb (Duration: 5.0ms | Allocations: 574)
+Completed 200 OK in 1619ms (Views: 7.0ms | ActiveRecord: 710.1ms | Allocations: 5107)
+
+
+Started GET "/" for 127.0.0.1 at 2023-11-18 17:09:49 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (65.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 86.1ms | Allocations: 1960)
+  Rendered layout layouts/application.html.erb (Duration: 356.3ms | Allocations: 43676)
+Completed 200 OK in 607ms (Views: 414.7ms | ActiveRecord: 0.0ms | Allocations: 48747)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2023-11-18 17:09:53 -0300
+Processing by Users::SessionsController#new as HTML
+  [1m[36mUser Load (66.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/alumno_home/index
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 1825ms (ActiveRecord: 979.1ms | Allocations: 26770)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 17:09:55 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (66.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 0.9ms | Allocations: 356)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 7.8ms | Allocations: 1650)
+  Rendered layout layouts/application.html.erb (Duration: 56.5ms | Allocations: 7923)
+Completed 200 OK in 198ms (Views: 62.4ms | ActiveRecord: 66.1ms | Allocations: 9930)
+
+
+Started GET "/" for 127.0.0.1 at 2023-11-18 17:24:56 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (63.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 21.1ms | Allocations: 1996)
+  Rendered layout layouts/application.html.erb (Duration: 874.7ms | Allocations: 123586)
+Completed 500 Internal Server Error in 928ms (ActiveRecord: 0.0ms | Allocations: 128609)
+
+
+  
+ActionView::Template::Error (The asset "tailwind.css" is not present in the asset pipeline.
+):
+     6:     <meta name="viewport" content="width=device-width,initial-scale=1">
+     7:     <%= csrf_meta_tags %>
+     8:     <%= csp_meta_tag %>
+     9:     <%= stylesheet_link_tag "xterm","tailwind", "inter-font", "data-turbo-track": "reload" %>
+    10:     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    11: 
+    12: 
+  
+app/views/layouts/application.html.erb:9
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 17:46:27 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (65.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (85.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 1.3ms | Allocations: 443)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 282.1ms | Allocations: 37272)
+  Rendered layout layouts/application.html.erb (Duration: 316.5ms | Allocations: 44083)
+Completed 200 OK in 2153ms (Views: 331.7ms | ActiveRecord: 1014.7ms | Allocations: 77627)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 17:51:26 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (64.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (62.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 1.1ms | Allocations: 445)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 304.0ms | Allocations: 41222)
+  Rendered layout layouts/application.html.erb (Duration: 332.6ms | Allocations: 48033)
+Completed 200 OK in 2080ms (Views: 345.6ms | ActiveRecord: 951.0ms | Allocations: 81551)
+
+
+Started GET "/" for 127.0.0.1 at 2023-11-18 17:56:59 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (65.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (Duration: 18.4ms | Allocations: 1987)
+  Rendered layout layouts/application.html.erb (Duration: 408.2ms | Allocations: 50045)
+Completed 200 OK in 450ms (Views: 421.6ms | ActiveRecord: 0.0ms | Allocations: 55116)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2023-11-18 17:57:03 -0300
+Processing by Users::SessionsController#new as HTML
+  [1m[36mUser Load (66.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:3000/alumno_home/index
+Filter chain halted as :require_no_authentication rendered or redirected
+Completed 302 Found in 1740ms (ActiveRecord: 979.9ms | Allocations: 26776)
+
+
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 17:57:05 -0300
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (65.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 0.8ms | Allocations: 356)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 6.7ms | Allocations: 1655)
+  Rendered layout layouts/application.html.erb (Duration: 34.9ms | Allocations: 8096)
+Completed 200 OK in 175ms (Views: 40.6ms | ActiveRecord: 65.6ms | Allocations: 10094)
+
+

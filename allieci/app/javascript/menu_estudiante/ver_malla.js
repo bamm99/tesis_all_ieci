@@ -1,3 +1,5 @@
+
+
 export function ver_malla(terminal) {
     // Lógica para la opción 2
     const semestres = [
@@ -23,4 +25,8 @@ export function ver_malla(terminal) {
     }
 
     verTodasAsignaturas(); // Llamada a la función para mostrar las asignaturas
+    terminal.writeln('----------------------------------------');
+    terminal.writeln("Presione Enter para regresar al menú principal.");
+    terminal.writeln('----------------------------------------');
+
 }

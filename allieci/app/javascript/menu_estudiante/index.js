@@ -1,3 +1,6 @@
+import { Terminal } from 'xterm';
+import 'xterm/css/xterm.css';
+import { activarEntrada } from '../control_entrada';
 import { docs_asig } from './docs_asig';
 import { ver_malla } from './ver_malla';
 import { cursos_linux } from './cursos_linux';
@@ -16,15 +19,23 @@ export function mostrarMenuPrincipal(terminal) {
     terminal.writeln('3. Ver curso de autoaprendizaje Linux');
     terminal.writeln('----------------------------------------');
     terminal.write('Ingrese una opcion: ');
+    activarEntrada(terminal);
+    viendoMalla = false;
 }
 
 export function procesarOpcion(opcion, terminal) {
+    if(viendoMalla){
+        mostrarMenuPrincipal(terminal);
+        viendoMalla = false;
+        return
+    }
     switch (opcion) {
         case '1':
             docs_asig(terminal);
             break;
         case '2':
             ver_malla(terminal);
+            viendoMalla = true;
             break;
         case '3':
             cursos_linux(terminal);
