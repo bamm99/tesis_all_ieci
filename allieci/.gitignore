@@ -16,8 +16,8 @@
 /config/database.yml
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
+allieci/log/*
+allieci/tmp/*
 !/log/.keep
 !/tmp/.keep
 
