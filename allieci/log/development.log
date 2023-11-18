@@ -1945,3 +1945,15 @@ Processing by AlumnoHomeController#index as HTML
 Completed 200 OK in 175ms (Views: 40.6ms | ActiveRecord: 65.6ms | Allocations: 10094)
 
 
+Started GET "/alumno_home/index" for 127.0.0.1 at 2023-11-18 18:10:52 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (70.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by AlumnoHomeController#index as HTML
+  [1m[36mUser Load (69.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering alumno_home/index.html.erb within layouts/application
+  Rendered shared/_headeralumno.html.erb (Duration: 1.3ms | Allocations: 445)
+  Rendered alumno_home/index.html.erb within layouts/application (Duration: 300.1ms | Allocations: 41093)
+  Rendered layout layouts/application.html.erb (Duration: 329.4ms | Allocations: 47904)
+Completed 200 OK in 2178ms (Views: 345.0ms | ActiveRecord: 1015.3ms | Allocations: 81461)
+
+
