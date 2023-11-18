@@ -1,6 +1,8 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Allow connections to amazon ec2 instance
+  Rails.application.config.hosts << "ec2-52-67-113-85.sa-east-1.compute.amazonaws.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
