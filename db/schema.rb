@@ -10,9 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_17_030538) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_26_054345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "asignaturas", force: :cascade do |t|
+    t.bigint "semestre_id", null: false
+    t.string "nombre"
+    t.string "directorio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["semestre_id"], name: "index_asignaturas_on_semestre_id"
+  end
+
+  create_table "documentos", force: :cascade do |t|
+    t.bigint "asignatura_id", null: false
+    t.string "nombre"
+    t.string "directorio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asignatura_id"], name: "index_documentos_on_asignatura_id"
+  end
+
+  create_table "prof_asigns", force: :cascade do |t|
+    t.bigint "asignatura_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asignatura_id"], name: "index_prof_asigns_on_asignatura_id"
+    t.index ["user_id"], name: "index_prof_asigns_on_user_id"
+  end
+
+  create_table "semestres", force: :cascade do |t|
+    t.integer "numero"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -32,4 +65,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_030538) do
     t.index ["rut"], name: "index_users_on_rut", unique: true
   end
 
+  add_foreign_key "asignaturas", "semestres"
+  add_foreign_key "documentos", "asignaturas"
+  add_foreign_key "prof_asigns", "asignaturas"
+  add_foreign_key "prof_asigns", "users"
 end

@@ -13,7 +13,7 @@ class Users::SessionsController < Devise::SessionsController
     elsif resource.profesor?
       profesor_home_path
     elsif resource.admin?
-      admin_home_path
+      admin_root_path
     else
       root_path
     end

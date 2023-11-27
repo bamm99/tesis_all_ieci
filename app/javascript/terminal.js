@@ -5,8 +5,6 @@ import { desactivarEntrada, activarEntrada } from './control_entrada.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const terminal = new Terminal({
-        cols: 80,
-        rows: 28,
         theme: {
             background: '#772953',
             foreground: '#ffffff',
