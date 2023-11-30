@@ -1,0 +1,55 @@
+<%= turbo_frame_tag "main_content" do %>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+
+<%# Botones %>
+<button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onclick="toggleAddCursoForm()">Añadir Nuevo Curso</button>
+<%= button_to 'Eliminar Curso Seleccionado', '#', class: 'btn btn-rojo', data: { confirm: '¿Estás seguro?' } %>
+
+<%# Formulario para Añadir Nuevo Curso (oculto inicialmente) %>
+<div id="form-add-curso" style="display: none;">
+<%= form_with model: @curso, url: admin_cursos_path, local: true, multipart: true do |form| %>
+  <%= form.label :nombre %>
+  <%= form.text_field :nombre %>
+  
+  <%= form.label :descripcion %>
+  <%= form.text_area :descripcion %>
+  
+  <%= form.label :archivo %>
+  <%= form.file_field :archivo %>
+  
+  <%= form.submit 'Crear Curso' %>
+<% end %>
+</div>
+
+<%# Tabla de Cursos %>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="py-3 px-6">Seleccionar</th>
+            <th scope="col" class="py-3 px-6">Nombre</th>
+            <th scope="col" class="py-3 px-6">Descripcion</th>
+        </tr>
+    </thead>
+  <tbody>
+    <% cursos.each do |curso| %>
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td class="py-4 px-6"><input type="checkbox" name="selected_cursos[]" value="<%= curso.id %>"></td>
+        <td class="py-4 px-6"><%= curso.nombre %></td>
+        <td class="py-4 px-6"><%= curso.descripcion %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+<script>
+function toggleAddCursoForm() {
+  var formAddCurso = document.getElementById('form-add-curso');
+  if (formAddCurso) {
+    formAddCurso.style.display = formAddCurso.style.display === 'none' ? 'block' : 'none';
+  }
+}
+</script>
+<% end %>
+

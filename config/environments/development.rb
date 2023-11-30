@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.serve_static_files = true
 
   # Allow connections to amazon ec2 instance
   Rails.application.config.hosts << "ec2-52-67-113-85.sa-east-1.compute.amazonaws.com"

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../app/javascript/menu_asig.js"],
+  "sourcesContent": ["document.addEventListener(\"DOMContentLoaded\", function() {\r\n    alert(\"Test\");\r\n    // Listener para el bot\u00F3n principal de Asignaturas\r\n    var dropdownButton = document.querySelector('.dropbtn');\r\n    dropdownButton.addEventListener('click', function() {\r\n      this.nextElementSibling.classList.toggle(\"show\");\r\n    });\r\n  \r\n    // Listener para cada bot\u00F3n de submenu de Semestre\r\n    var submenuButtons = document.querySelectorAll('.submenu-btn');\r\n    submenuButtons.forEach(function(btn) {\r\n      btn.addEventListener('click', function() {\r\n        this.nextElementSibling.classList.toggle(\"show\");\r\n      });\r\n    });\r\n  });"],
+  "mappings": ";;AAAA,WAAS,iBAAiB,oBAAoB,WAAW;AACrD,UAAM,MAAM;AAEZ,QAAI,iBAAiB,SAAS,cAAc,UAAU;AACtD,mBAAe,iBAAiB,SAAS,WAAW;AAClD,WAAK,mBAAmB,UAAU,OAAO,MAAM;AAAA,IACjD,CAAC;AAGD,QAAI,iBAAiB,SAAS,iBAAiB,cAAc;AAC7D,mBAAe,QAAQ,SAAS,KAAK;AACnC,UAAI,iBAAiB,SAAS,WAAW;AACvC,aAAK,mBAAmB,UAAU,OAAO,MAAM;AAAA,MACjD,CAAC;AAAA,IACH,CAAC;AAAA,EACH,CAAC;",
+  "names": []
+}

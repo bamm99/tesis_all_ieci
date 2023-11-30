@@ -13,14 +13,12 @@ Rails.application.routes.draw do
   get 'alumno_home/index', to: 'alumno_home#index', as: 'alumno_home'
   #ruta profesor
   get 'profesor_home/index', to: 'profesor_home#index', as: 'profesor_home'
-  #ruta admin
-  # get 'admin_home/index', to: 'admin_home#index', as: 'admin_home'
-    # get 'admin_home/usuarios', to: 'admin_home#usuarios', as: 'admin_home_usuarios'
 
     namespace :admin do
       root to: 'admin_home#index' # Ruta raíz para el namespace admin
       get 'usuarios', to: 'admin_home#usuarios', as: 'usuarios'
-      # ... otras rutas de administración ...
+      get 'cursos', to: 'admin_home#cursos', as: 'cursos'
+      post 'cursos', to: 'admin_home#create_curso', as: 'admin_cursos'
     end
 
   authenticated :user do
@@ -29,15 +27,11 @@ Rails.application.routes.draw do
     resources :admin_home, only: [:index], controller: 'admin_home'
   end
   
-
-
   resources :semestres do
     resources :asignaturas do
       resources :documentos
     end
   end
   
-
-
   root 'home#index'
 end

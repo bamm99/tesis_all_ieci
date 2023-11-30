@@ -5,9 +5,14 @@
   <title>/ALL_IECI</title>
   <%= stylesheet_link_tag "application.tailwind", "inter-font", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  <%= turbo_include_tags %>
+  <%= turbo_include_tags %> 
+  <script src="/assets/application.js"></script>
 </head>
 <body class="font-family: 'Ubuntu Monospace' bg-[radial-gradient(at_left_bottom,_#0f172a,_#581c87,_#0f172a)] min-h-screen">
+
+    <%= alert %>
+    <%= notice %>
+
   <!-- Header -->
   <header class="text-center pt-1 text-6xl p-4">
     <h1>/ALL_IECI</h1>
@@ -26,8 +31,24 @@
       <!-- Contenido del Sidebar -->
       <ul class="space-y-2">
         <%= link_to 'Usuarios', admin_usuarios_path, class: 'block p-2 rounded hover:bg-purple-800', data: { turbo_frame: "main_content" } %>
+       <!-- Menú de Asignaturas -->
+        <div class="dropdown">
+          <button class="dropbtn">Asignaturas</button>
+          <div class="dropdown-content">
+            <% @asignaturas_por_semestre.each do |semestre, asignaturas| %>
+              <div class="submenu">
+                <button class="submenu-btn">Semestre <%= semestre.numero %></button>
+                <ul class="submenu-content">
+                  <% asignaturas.each do |asignatura| %>
+                    <li><%= link_to asignatura.nombre, semestre_asignatura_path(semestre, asignatura) %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <%= link_to 'Cursos', admin_cursos_path, class: 'block p-2 rounded hover:bg-purple-800', data: { turbo_frame: "main_content" } %>
       </ul>
-      
     </aside>
     <!-- Contenido Principal -->
     <main class="main-container flex-grow bg-white p-4 rounded overflow-auto">

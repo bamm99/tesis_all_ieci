@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../app/javascript/control_entrada.js"],
+  "sourcesContent": ["\r\n\r\nexport function activarEntrada(estado) {\r\n    estado.esperandoEntrada = true;\r\n}\r\n\r\nexport function desactivarEntrada(estado) {\r\n    estado.esperandoEntrada = false;\r\n}\r\n\r\n\r\n\r\n"],
+  "mappings": ";;AAEO,WAAS,eAAe,QAAQ;AACnC,WAAO,mBAAmB;AAAA,EAC9B;AAEO,WAAS,kBAAkB,QAAQ;AACtC,WAAO,mBAAmB;AAAA,EAC9B;",
+  "names": []
+}

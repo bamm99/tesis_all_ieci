@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_26_054345) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_29_192813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_26_054345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["semestre_id"], name: "index_asignaturas_on_semestre_id"
+  end
+
+  create_table "cursos", force: :cascade do |t|
+    t.string "nombre"
+    t.text "descripcion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "archivo"
+    t.bigint "user_id", null: false
+    t.text "archivo_data"
+    t.index ["user_id"], name: "index_cursos_on_user_id"
   end
 
   create_table "documentos", force: :cascade do |t|
@@ -66,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_26_054345) do
   end
 
   add_foreign_key "asignaturas", "semestres"
+  add_foreign_key "cursos", "users"
   add_foreign_key "documentos", "asignaturas"
   add_foreign_key "prof_asigns", "asignaturas"
   add_foreign_key "prof_asigns", "users"
