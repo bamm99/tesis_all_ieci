@@ -1,9 +1,10 @@
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
-import { activarEntrada } from '../control_entrada';
+import { activarEntrada, desactivarEntrada } from '../control_entrada';
 import { docs_asig } from './docs_asig';
 import { ver_malla } from './ver_malla';
-import { cursos_linux } from './cursos_linux';
+import { gestorCursos } from './gestor_cursos';
+
 
 export function mostrarMenuPrincipal(terminal) {
     terminal.clear();
@@ -31,14 +32,15 @@ export function procesarOpcion(opcion, terminal) {
     }
     switch (opcion) {
         case '1':
-            docs_asig(terminal);
+            terminal.writeln('Funcionalidad en desarrollo');
             break;
         case '2':
             ver_malla(terminal);
             viendoMalla = true;
             break;
         case '3':
-            cursos_linux(terminal);
+            gestorCursos(terminal, setCommandHandler);
+
             break;
         default:
             terminal.writeln('Opción no válida');

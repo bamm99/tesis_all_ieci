@@ -4,6 +4,10 @@ import { mostrarMenuPrincipal, procesarOpcion } from './menu_estudiante/index.js
 import { desactivarEntrada, activarEntrada } from './control_entrada.js';
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Obteniendo el contenedor de la terminal
+    const terminalContainer = document.getElementById('terminal-container');
+
+    // Creando una nueva instancia de Terminal
     const terminal = new Terminal({
         theme: {
             background: '#772953',
@@ -13,15 +17,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    terminal.open(document.getElementById('terminal-container'));
+    // Abriendo la terminal en el contenedor especificado
+    terminal.open(terminalContainer);
     terminal.focus();
-    mostrarMenuPrincipal(terminal);
-    let inputBuffer = '';
-    
-    let estado = {
-        esperandoEntrada: true
-    };
 
+    // Mostrando el menú principal
+    mostrarMenuPrincipal(terminal);
+
+    let inputBuffer = '';
+    let estado = { esperandoEntrada: true };
+
+    // Manejo de eventos de teclado en la terminal
     terminal.onKey(({ key, domEvent }) => {
         const charCode = typeof domEvent.which == "number" ? domEvent.which : domEvent.keyCode;
         const isEnter = charCode === 13;
@@ -29,8 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const isArrowKey = [37, 38, 39, 40].includes(charCode);
     
         if (!estado.esperandoEntrada || isArrowKey) {
-            // Ignorar teclas si no se espera entrada o si son teclas de flecha
-            return;
+            return; // Ignorar teclas si no se espera entrada o si son teclas de flecha
         }
     
         if (isEnter) {
@@ -48,4 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             terminal.write(key);
         }
     });
+
+    // Asegurándose de que la terminal ocupe todo el espacio disponible en su contenedor
+    terminal.fit();
 });

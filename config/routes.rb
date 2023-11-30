@@ -9,11 +9,13 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'users/sessions#destroy'
   end
 
-  #ruta alumno
+  #vista alumno
   get 'alumno_home/index', to: 'alumno_home#index', as: 'alumno_home'
+  get '/cursos', to: 'cursos#index'
   #ruta profesor
   get 'profesor_home/index', to: 'profesor_home#index', as: 'profesor_home'
 
+  # vista administrador
     namespace :admin do
       root to: 'admin_home#index' # Ruta raíz para el namespace admin
       get 'usuarios', to: 'admin_home#usuarios', as: 'usuarios'
