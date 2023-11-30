@@ -21,32 +21,17 @@ module Admin
     end
 
     def create_curso
-      puts "----------------------------------------------"
-      puts "Parámetros recibidos:"
-      puts params.inspect
-      puts "----------------------------------------------"
 
-      if current_user.role_cursos == 1
         @curso = Curso.new(curso_params)
-        @curso.user_id = current_user
+        @curso.user_id = current_user.id
 
         if @curso.save
           # Lógica para guardar el archivo del curso
           redirect_to admin_root_path, notice: 'Curso creado con éxito'
         else
-          puts "----------------------------------------------"
-          puts "Errores del curso:"
           puts @curso.errors.full_messages
-          puts "----------------------------------------------"
           redirect_to admin_root_path, alert: 'Error al crear el curso'
         end
-      else
-        puts "----------------------------------------------"
-        puts "Usuario sin permiso. Rol actual:"
-        puts current_user.role_cursos
-        puts "----------------------------------------------"
-        redirect_to admin_root_path, alert: 'No tienes permiso para crear cursos'
-      end
     end
     private
     
