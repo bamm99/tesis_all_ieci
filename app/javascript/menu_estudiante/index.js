@@ -3,7 +3,7 @@ import 'xterm/css/xterm.css';
 import { activarEntrada, desactivarEntrada } from '../control_entrada';
 import { docs_asig } from './docs_asig';
 import { ver_malla } from './ver_malla';
-import { gestorCursos } from './gestor_cursos';
+import { gestorCursos } from './gestorCursos';
 
 
 export function mostrarMenuPrincipal(terminal) {
@@ -24,7 +24,7 @@ export function mostrarMenuPrincipal(terminal) {
     viendoMalla = false;
 }
 
-export function procesarOpcion(opcion, terminal) {
+export function procesarOpcion(opcion, terminal, setCommandHandler) {
     if(viendoMalla){
         mostrarMenuPrincipal(terminal);
         viendoMalla = false;

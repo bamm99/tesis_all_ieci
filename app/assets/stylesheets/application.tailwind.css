@@ -16,17 +16,20 @@ html,   body{
     color: white;
   }
   .container {
-    width: 100%;
-    height: 85vh; /* Ajusta esto según sea necesario para adaptarse al espacio disponible */
-    display: flex;
-    justify-content: center;
-}
+    flex-grow: 1; /* Hace que el contenedor crezca para ocupar el espacio disponible */
+    width: 100%; /* Asegura que tome todo el ancho disponible */
+    /* Resta la altura conocida del header y navbar si es fija, por ejemplo: calc(100vh - 100px) */
+    height: calc(100vh - 100px); /* Ajusta 100px al valor real */
+/* Habilita flexbox para este contenedor */
+  }
+  #terminal-container {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    min-height: 50px; /* Ocupa al menos el 75% de la altura de la ventana */
+    height: 75vh; /* Permite que crezca si hay más contenido */
+    display: flex; /* Usa flexbox para estructurar los elementos internos */
+  }
 
-#terminal-container {
-    width: 100%; /* Asegúrate de que la terminal llene todo el contenedor */
-    height: 100%; /* Asegúrate de que la terminal llene todo el contenedor */
-}
-  
+
   /* Estilo para el contenedor de la izquierda (Sidebar) */
   .sidebar {
     width: 25%; /* Ancho del sidebar */

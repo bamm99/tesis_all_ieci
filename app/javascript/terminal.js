@@ -1,59 +1,65 @@
 import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
 import { mostrarMenuPrincipal, procesarOpcion } from './menu_estudiante/index.js';
-import { desactivarEntrada, activarEntrada } from './control_entrada.js';
+
+let setCommandHandler;
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Obteniendo el contenedor de la terminal
     const terminalContainer = document.getElementById('terminal-container');
-
-    // Creando una nueva instancia de Terminal
     const terminal = new Terminal({
         theme: {
             background: '#772953',
             foreground: '#ffffff',
             cursor: 'rgba(255,255,255,0.5)',
-            selection: 'rgba(255,255,255,0.3)'
+            selection: 'rgba(255,255,255,0.3)',
         }
     });
-
-    // Abriendo la terminal en el contenedor especificado
+    
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
     terminal.open(terminalContainer);
-    terminal.focus();
+    fitAddon.fit();
 
-    // Mostrando el menú principal
+    window.addEventListener('resize', () => {
+        clearTimeout(window.resizedFinished);
+        window.resizedFinished = setTimeout(() => {
+            fitAddon.fit();
+        }, 250);
+    });
+
+    terminal.focus();
     mostrarMenuPrincipal(terminal);
 
     let inputBuffer = '';
-    let estado = { esperandoEntrada: true };
+    let keyEventListener = null;
 
-    // Manejo de eventos de teclado en la terminal
-    terminal.onKey(({ key, domEvent }) => {
-        const charCode = typeof domEvent.which == "number" ? domEvent.which : domEvent.keyCode;
-        const isEnter = charCode === 13;
-        const isBackspace = charCode === 8;
-        const isArrowKey = [37, 38, 39, 40].includes(charCode);
-    
-        if (!estado.esperandoEntrada || isArrowKey) {
-            return; // Ignorar teclas si no se espera entrada o si son teclas de flecha
+    setCommandHandler = (handler) => {
+        if (keyEventListener) {
+            terminal.offKey(keyEventListener);
         }
+        keyEventListener = ({ key, domEvent }) => {
+            const charCode = typeof domEvent.which == "number" ? domEvent.which : domEvent.keyCode;
+            const isEnter = charCode === 13;
+            const isBackspace = charCode === 8;
     
-        if (isEnter) {
-            terminal.write("\r\n");
-            procesarOpcion(inputBuffer.trim(), terminal);
-            inputBuffer = '';
-        } else if (isBackspace) {
-            // Manejar retroceso (borrar)
-            if (inputBuffer.length > 0) {
+            if (isEnter) {
+                terminal.write("\r\n");
+                handler(inputBuffer.trim());
+                inputBuffer = '';
+            } else if (isBackspace && inputBuffer.length > 0) {
                 inputBuffer = inputBuffer.substring(0, inputBuffer.length - 1);
                 terminal.write('\b \b');
+            } else if (!isNaN(parseInt(key)) || key.match(/[yn]/i)) {
+                inputBuffer += key;
+                terminal.write(key);
             }
-        } else {
-            inputBuffer += key;
-            terminal.write(key);
-        }
-    });
+        };
+        
+        terminal.onKey(keyEventListener);
+    };
 
-    // Asegurándose de que la terminal ocupe todo el espacio disponible en su contenedor
-    terminal.fit();
+    setCommandHandler((command) => {
+        procesarOpcion(command, terminal);
+    });
 });
