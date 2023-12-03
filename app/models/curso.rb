@@ -1,6 +1,6 @@
 class Curso < ApplicationRecord
     include CursoUploader::Attachment(:archivo)  # Shrine attachment
-    
+    has_many :progreso_cursos
     belongs_to :user
     
     validates :nombre, presence: true

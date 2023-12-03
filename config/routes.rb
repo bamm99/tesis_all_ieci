@@ -9,9 +9,14 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'users/sessions#destroy'
   end
 
+
   #vista alumno
   get 'alumno_home/index', to: 'alumno_home#index', as: 'alumno_home'
   get '/cursos', to: 'cursos#index'
+  get '/cursos/:id', to: 'cursos#show', as: 'curso'
+  post 'progreso_cursos/:curso_id/actualizar', to: 'progreso_cursos#actualizar'
+  get 'progreso_cursos/:curso_id/obtener', to: 'progreso_cursos#obtener'
+
   #ruta profesor
   get 'profesor_home/index', to: 'profesor_home#index', as: 'profesor_home'
 

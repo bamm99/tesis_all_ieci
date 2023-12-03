@@ -24,6 +24,7 @@ module Admin
 
         @curso = Curso.new(curso_params)
         @curso.user_id = current_user.id
+        @curso.archivo_nombre = @curso.archivo.original_filename
 
         if @curso.save
           # Lógica para guardar el archivo del curso

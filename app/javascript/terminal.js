@@ -1,9 +1,13 @@
+// index.js
+
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css';
-import { mostrarMenuPrincipal, procesarOpcion } from './menu_estudiante/index.js';
+import { mostrarMenuPrincipal, procesarOpcionPrincipal } from './menus/MenuPrincipal.js';
+import { mostrarMenuCursos, procesarOpcionCursos } from './menus/CursosMenu.js';
+import { mostrarMenuAsignaturas, procesarOpcionAsignaturas } from './menus/AsignaturasMenu.js';
 
-let setCommandHandler;
+let estadoMenu = 'principal';
 
 document.addEventListener("DOMContentLoaded", () => {
     const terminalContainer = document.getElementById('terminal-container');
@@ -15,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
             selection: 'rgba(255,255,255,0.3)',
         }
     });
-    
+
     const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
     terminal.open(terminalContainer);
@@ -32,34 +36,46 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarMenuPrincipal(terminal);
 
     let inputBuffer = '';
-    let keyEventListener = null;
+    terminal.onKey(({ key, domEvent }) => {
+        const charCode = domEvent.keyCode;
+        if ([37, 38, 39, 40].includes(charCode)) return; // Ignorar teclas de flecha
 
-    setCommandHandler = (handler) => {
-        if (keyEventListener) {
-            terminal.offKey(keyEventListener);
-        }
-        keyEventListener = ({ key, domEvent }) => {
-            const charCode = typeof domEvent.which == "number" ? domEvent.which : domEvent.keyCode;
-            const isEnter = charCode === 13;
-            const isBackspace = charCode === 8;
-    
-            if (isEnter) {
-                terminal.write("\r\n");
-                handler(inputBuffer.trim());
-                inputBuffer = '';
-            } else if (isBackspace && inputBuffer.length > 0) {
-                inputBuffer = inputBuffer.substring(0, inputBuffer.length - 1);
-                terminal.write('\b \b');
-            } else if (!isNaN(parseInt(key)) || key.match(/[yn]/i)) {
-                inputBuffer += key;
-                terminal.write(key);
+        if (charCode === 13) { // Enter
+            terminal.write('\r\n');
+            let opcion = inputBuffer.trim();
+            inputBuffer = '';
+
+            if (estadoMenu === 'principal') {
+                procesarOpcionPrincipal(opcion, terminal);
+                // Actualizar estadoMenu según la opción seleccionada
+                switch (opcion) {
+                    case '1': // Listar todas las asignaturas
+                        estadoMenu = 'listarAsignaturas';
+                        break;
+                    case '2': // Ver asignaturas de un semestre
+                        estadoMenu = 'asignaturas';
+                        break;
+                    case '3': // Ver cursos de autoaprendizaje
+                        estadoMenu = 'cursos';
+                        break;
+                    default:
+                        estadoMenu = 'principal';
+                        break;
+                }
+            } else if (estadoMenu === 'listarAsignaturas') {
+                mostrarMenuPrincipal(terminal);
+                estadoMenu = 'principal';
+            } else if (estadoMenu === 'asignaturas') {
+                procesarOpcionAsignaturas(opcion, terminal);
+            } else if (estadoMenu === 'cursos') {
+                procesarOpcionCursos(opcion, terminal);
             }
-        };
-        
-        terminal.onKey(keyEventListener);
-    };
-
-    setCommandHandler((command) => {
-        procesarOpcion(command, terminal);
+        } else if (charCode === 8 && inputBuffer.length > 0) { // Backspace
+            inputBuffer = inputBuffer.slice(0, -1);
+            terminal.write('\b \b');
+        } else if (/^[a-zA-Z0-9]$/.test(key)) { // Aceptar letras y números
+            inputBuffer += key;
+            terminal.write(key);
+        }
     });
 });

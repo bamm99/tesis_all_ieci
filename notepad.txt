@@ -1,0 +1,170 @@
+menu principal:
+import { listarCursos } from './CursosMenu.js'; 
+
+const semestres = [
+    ["Algebra 1", "Nociones de Computacion e Informatica", "Algoritmos y Bases de la Programacion", "Introduccion a la Ingenieria", "Comunicacion y Argumentacion"],
+    ["Algebra 2", "Calculo 1", "Algoritmos y Programacion", "Estructuras Discretas para Ciencias de la Programacion"],
+    ["Estadisticas y Probabilidades", "Calculo 2", "Estructura de Datos", "Administracion General", "Economia"],
+    ["Arquitectura de Computadores", "Paradigmas de la Programacion", "Analisis de Algoritmos y Teoria de Automatas", "Ingles 1", "Practica Profesional 1"],
+    ["Metodologia de Desarrollo", "Base de Datos", "Sistemas de Informacion", "Sistemas Financieros y Contables", "Ingles 2"],
+    ["Inteligencia Artificial", "Sistemas Operativos", "Ingenieria de Software", "Formulacion y Evaluacion de Proyectos", "Ingles 3", "Electivos de Especialidad"],
+    ["Electivos de Especialidad", "Comunicacion de Datos y Redes", "Taller de Desarrollo", "Gestion Empresarial", "Ingles 4"],
+    ["Electivos de Especialidad", "Proyecto Final de Carrera"]
+];
+
+export function mostrarMenuPrincipal(terminal) {
+    terminal.clear();
+    terminal.writeln('Bienvenido a ALL_IECI');
+    terminal.writeln('1. Ver todas las asignaturas');
+    terminal.writeln('2. Ver asignaturas de un semestre');
+    terminal.writeln('3. Ver cursos de autoaprendizaje');
+    terminal.writeln('0. Salir');
+    terminal.write('Ingrese una opción: ');
+}
+let estadoMenu = 'principal';
+
+export function procesarOpcion(opcion, terminal) {
+    switch (opcion) {
+        case '1':
+            listarTodasAsignaturas(terminal);
+            estadoMenu = 'principal';
+            break;
+        case '2':
+            // Aquí deberías llamar a la función listarAsignaturasPorSemestre (que deberás implementar)
+            break;
+        case '3':
+            listarCursos(terminal);
+            estadoMenu = 'cursos';
+            break;
+        default:
+            terminal.writeln('Opción no válida. Intente de nuevo.');
+            mostrarMenuPrincipal(terminal);
+            break;
+    }
+}
+
+function listarTodasAsignaturas(terminal) {import { mostrarMenuPrincipal } from './MenuPrincipal';
+    semestres.forEach((asignaturas, index) => {
+        terminal.writeln(`Semestre ${index + 1}:`);
+        asignaturas.forEach(asignatura => {
+            terminal.writeln(` - ${asignatura}`);
+        });
+        terminal.writeln('');
+    });
+    terminal.write('Presione Enter para volver al menú principal...');
+}
+
+
+CursosMenu.js:
+import { mostrarMenuPrincipal } from './MenuPrincipal.js';
+
+
+export function listarCursos(terminal) {
+    // Realizar una solicitud a tu backend para obtener los cursos
+
+    terminal.writeln('Cursos disponibles:');
+    fetch('/cursos')
+        .then(response => response.json())
+        .then(cursos => {
+            
+            cursos.forEach((curso, index) => {
+                terminal.writeln(`${index + 1}. ${curso.nombre}`);
+            });
+            terminal.write('\nSeleccione un curso o presione 0 para volver al menú principal: ');
+        })
+        .catch(error => {
+            terminal.writeln('Error al cargar los cursos');
+            // Manejar el error adecuadamente
+        });
+}
+
+export function seleccionarCurso(terminal, numCurso) {
+    if (isNaN(numCurso) || numCurso < 1) {
+        terminal.writeln("Número de curso no válido.");
+        mostrarMenuPrincipal(terminal); // Volver al menú principal si la entrada no es válida
+        return;
+    }
+
+    // Cargar el curso seleccionado
+    fetch(`/cursos/${numCurso}`)
+        .then(response => response.json())
+        .then(curso => mostrarCurso(curso, terminal))
+        .catch(error => {
+            terminal.writeln('Error al cargar el curso.');
+            mostrarMenuPrincipal(terminal); // Volver al menú principal si hay un error
+        });
+}
+
+function mostrarCurso(curso, terminal) {
+    terminal.clear();
+    terminal.writeln(curso.nombre);
+    terminal.writeln(curso.descripcion);
+    // Iterar a través de las lecciones y mostrarlas
+    // ... lógica para mostrar lecciones ...
+}
+
+export function volverAlMenuPrincipal(terminal) {
+    mostrarMenuPrincipal(terminal);
+    // Restablecer el estado del menú si es necesario
+}
+
+terminal.js:
+import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
+import 'xterm/css/xterm.css';
+import { mostrarMenuPrincipal, procesarOpcion } from './menus/MenuPrincipal.js';
+import { seleccionarCurso } from './menus/CursosMenu.js';
+
+let estadoMenu = 'principal';
+
+document.addEventListener("DOMContentLoaded", () => {
+    const terminalContainer = document.getElementById('terminal-container');
+    const terminal = new Terminal({
+        theme: {
+            background: '#772953',
+            foreground: '#ffffff',
+            cursor: 'rgba(255,255,255,0.5)',
+            selection: 'rgba(255,255,255,0.3)',
+        }
+    });
+
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
+    terminal.open(terminalContainer);
+    fitAddon.fit();
+
+    window.addEventListener('resize', () => {
+        clearTimeout(window.resizedFinished);
+        window.resizedFinished = setTimeout(() => {
+            fitAddon.fit();
+        }, 250);
+    });
+
+    terminal.focus();
+    mostrarMenuPrincipal(terminal);
+
+    let inputBuffer = '';
+
+    terminal.onKey(({ key, domEvent }) => {
+        const charCode = domEvent.keyCode;
+        if ([37, 38, 39, 40].includes(charCode)) return;
+        terminal.write('\r\n');
+        if (charCode === 13) { // Enter
+            if (estadoMenu === 'principal') {
+                procesarOpcion(inputBuffer.trim(), terminal);
+            } else if (estadoMenu === 'cursos') {
+                seleccionarCurso(terminal, parseInt(inputBuffer.trim()));
+                estadoMenu = 'principal';
+            }
+            inputBuffer = '';  // Limpiar el buffer después de procesar la entrada
+        } else if (charCode === 8 && inputBuffer.length > 0) { // Backspace
+            inputBuffer = inputBuffer.slice(0, -1);
+            terminal.write('\b \b');
+        } else if (/^[a-zA-Z0-9]$/.test(key)) { // Aceptar letras y números
+            inputBuffer += key;
+            terminal.write(key);
+        }
+    });
+});
+
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_29_192813) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_03_050108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,9 +28,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_29_192813) do
     t.text "descripcion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "archivo"
     t.bigint "user_id", null: false
     t.text "archivo_data"
+    t.string "archivo_nombre"
     t.index ["user_id"], name: "index_cursos_on_user_id"
   end
 
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_29_192813) do
     t.datetime "updated_at", null: false
     t.index ["asignatura_id"], name: "index_prof_asigns_on_asignatura_id"
     t.index ["user_id"], name: "index_prof_asigns_on_user_id"
+  end
+
+  create_table "progreso_cursos", force: :cascade do |t|
+    t.integer "progreso"
+    t.bigint "user_id", null: false
+    t.bigint "curso_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["curso_id"], name: "index_progreso_cursos_on_curso_id"
+    t.index ["user_id"], name: "index_progreso_cursos_on_user_id"
   end
 
   create_table "semestres", force: :cascade do |t|
@@ -81,4 +91,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_29_192813) do
   add_foreign_key "documentos", "asignaturas"
   add_foreign_key "prof_asigns", "asignaturas"
   add_foreign_key "prof_asigns", "users"
+  add_foreign_key "progreso_cursos", "cursos"
+  add_foreign_key "progreso_cursos", "users"
 end
