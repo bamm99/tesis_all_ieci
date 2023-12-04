@@ -1,12 +1,15 @@
-# app/controllers/progreso_cursos_controller.rb
 class ProgresoCursosController < ApplicationController
-    before_action :set_curso, only: [:actualizar, :obtener]
-    before_action :set_usuario, only: [:actualizar, :obtener]
-  
-    # POST /progreso_cursos/:curso_id/actualizar
-    def actualizar
-      progreso = @usuario.progreso_cursos.find_or_initialize_by(curso: @curso)
-      progreso.update(progreso_params)
+  before_action :authenticate_user!
+  before_action :set_curso, only: [:actualizar, :obtener]
+  before_action :set_user, only: [:actualizar, :obtener]
+  skip_before_action :verify_authenticity_token, only: [:actualizar]
+
+
+  def actualizar
+    progreso = @user.progreso_cursos.find_or_initialize_by(curso: @curso)
+    progreso.assign_attributes(progreso_params)
+      puts "Parámetros recibidos: #{params.inspect}"
+
   
       if progreso.save
         render json: progreso, status: :ok
@@ -16,14 +19,16 @@ class ProgresoCursosController < ApplicationController
     end
   
     # GET /progreso_cursos/:curso_id/obtener
-    def obtener
-      progreso = @usuario.progreso_cursos.find_by(curso: @curso)
-      if progreso
-        render json: progreso, status: :ok
-      else
-        render json: { error: 'Progreso no encontrado' }, status: :not_found
-      end
+
+  def obtener
+    progreso = @user.progreso_cursos.find_or_initialize_by(curso: @curso)
+    if progreso.new_record? || progreso.progreso < 1
+      progreso.progreso = 0
+      progreso.save
     end
+    render json: progreso, status: :ok
+  end
+
   
     private
   
@@ -31,8 +36,8 @@ class ProgresoCursosController < ApplicationController
       @curso = Curso.find(params[:curso_id])
     end
   
-    def set_usuario
-      @usuario = current_user # Asegúrate de tener un método para obtener el usuario actual
+    def set_user
+      @user = current_user
     end
   
     def progreso_params

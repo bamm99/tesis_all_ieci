@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   #vista alumno
   get 'alumno_home/index', to: 'alumno_home#index', as: 'alumno_home'
   get '/cursos', to: 'cursos#index'
-  get '/cursos/:id', to: 'cursos#show', as: 'curso'
+  
   post 'progreso_cursos/:curso_id/actualizar', to: 'progreso_cursos#actualizar'
   get 'progreso_cursos/:curso_id/obtener', to: 'progreso_cursos#obtener'
 
@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       get 'usuarios', to: 'admin_home#usuarios', as: 'usuarios'
       get 'cursos', to: 'admin_home#cursos', as: 'cursos'
       post 'cursos', to: 'admin_home#create_curso', as: 'admin_cursos'
+      delete 'eliminar_curso', to: 'admin_home#eliminar_curso', as: 'eliminar_curso'
+
     end
 
   authenticated :user do

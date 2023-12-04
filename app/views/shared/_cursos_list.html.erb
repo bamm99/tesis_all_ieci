@@ -1,48 +1,60 @@
 <%= turbo_frame_tag "main_content" do %>
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 
-<%# Botones %>
-<button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onclick="toggleAddCursoForm()">Añadir Nuevo Curso</button>
-<%= button_to 'Eliminar Curso Seleccionado', '#', class: 'btn btn-rojo', data: { confirm: '¿Estás seguro?' } %>
-
-<%# Formulario para Añadir Nuevo Curso (oculto inicialmente) %>
-<div id="form-add-curso" style="display: none;">
-<%= form_with model: @curso, url: admin_cursos_path, local: true, multipart: true do |form| %>
-  <%= form.label :nombre %>
-  <%= form.text_field :nombre %>
-  
-  <%= form.label :descripcion %>
-  <%= form.text_area :descripcion %>
-  
-  <%= form.label :archivo %>
-  <%= form.file_field :archivo %>
-  
-  <%= form.submit 'Crear Curso' %>
-<% end %>
-</div>
-
-<%# Tabla de Cursos %>
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="py-3 px-6">Seleccionar</th>
-            <th scope="col" class="py-3 px-6">Nombre</th>
-            <th scope="col" class="py-3 px-6">Descripcion</th>
-        </tr>
-    </thead>
-  <tbody>
-    <% cursos.each do |curso| %>
-    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <td class="py-4 px-6"><input type="checkbox" name="selected_cursos[]" value="<%= curso.id %>"></td>
-        <td class="py-4 px-6"><%= curso.nombre %></td>
-        <td class="py-4 px-6"><%= curso.descripcion %></td>
-      </tr>
+<%# Formulario para Añadir/Eliminar Cursos %>
+<div class="bg-gray-200 rounded-md">
+  <div class="flex items-center justify-between px-4 py-2">
+    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="toggleAddCursoForm()">Añadir Nuevo Curso</button>
+    
+    <%= form_with url: admin_eliminar_curso_path, method: :delete, id: 'eliminar_curso_form' do %>
+      <%= submit_tag 'Eliminar Curso Seleccionado', class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full", data: { confirm: '¿Estás seguro?' } %>
     <% end %>
-  </tbody>
-</table>
+  </div>
 
+  <%# Formulario para Añadir Nuevo Curso (oculto inicialmente) %>
+  <div id="form-add-curso" class="p-4" style="display: none;">
+    <%= form_with model: @curso, url: admin_cursos_path, local: true, multipart: true do |form| %>
+      <div class="mb-4">
+        <%= form.label :nombre, class: "block text-sm font-bold mb-2" %>
+        <%= form.text_field :nombre, class: "shadow appearance-none border rounded w-full py-2 px-3 text-black" %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :descripcion, class: "block text-sm font-bold mb-2" %>
+        <%= form.text_area :descripcion, class: "shadow appearance-none border rounded w-full py-2 px-3 text-black" %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :archivo, class: "block text-sm font-bold mb-2" %>
+        <%= form.file_field :archivo, class: "shadow appearance-none border rounded w-full py-2 px-3 text-black" %>
+      </div>
+      <%= form.submit 'Crear Curso', class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+    <% end %>
+  </div>
 </div>
+
+<%# Tabla de Cursos con Checkbox para Selección %>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-4">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="py-3 px-6">Seleccionar</th>
+        <th scope="col" class="py-3 px-6">Nombre</th>
+        <th scope="col" class="py-3 px-6">Descripcion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cursos.each do |curso| %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <td class="py-4 px-6">
+            <%= check_box_tag "selected_cursos[]", curso.id, false, form: 'eliminar_curso_form' %>
+          </td>
+          <td class="py-4 px-6"><%= curso.nombre %></td>
+          <td class="py-4 px-6"><%= curso.descripcion %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 <script>
 function toggleAddCursoForm() {
   var formAddCurso = document.getElementById('form-add-curso');
@@ -52,4 +64,3 @@ function toggleAddCursoForm() {
 }
 </script>
 <% end %>
-

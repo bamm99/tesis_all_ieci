@@ -14,26 +14,39 @@ module Admin
     end
 
     def cursos
-      @curso = Curso.new # Aquí agregamos la instancia de Curso para el formulario
-      nombres_de_archivos = Dir.glob("storage/Cursos/*").map { |f| File.basename(f) }
-      @cursos = nombres_de_archivos.map { |nombre| OpenStruct.new(nombre: nombre) }
+      @curso = Curso.new
+      @cursos = Curso.all
       render partial: 'shared/cursos_list', locals: { cursos: @cursos }
     end
 
-    def create_curso
+    def eliminar_curso
+      Curso.where(id: params[:selected_cursos]).each do |curso|
+        archivo_path = Rails.root.join('storage', 'Cursos', curso.archivo_nombre)
+        File.delete(archivo_path) if File.exist?(archivo_path)
+        curso.destroy
+      end
 
-        @curso = Curso.new(curso_params)
-        @curso.user_id = current_user.id
-        @curso.archivo_nombre = @curso.archivo.original_filename
-
-        if @curso.save
-          # Lógica para guardar el archivo del curso
-          redirect_to admin_root_path, notice: 'Curso creado con éxito'
-        else
-          puts @curso.errors.full_messages
-          redirect_to admin_root_path, alert: 'Error al crear el curso'
-        end
+      @cursos = Curso.all
+      render partial: 'shared/cursos_list', locals: { cursos: @cursos }, notice: 'Cursos eliminados con éxito'
     end
+
+    def create_curso
+      @curso = Curso.new(curso_params)
+      @curso.user_id = current_user.id
+      @curso.archivo_nombre = @curso.archivo.original_filename if @curso.archivo.present?
+
+      if @curso.save
+        # Lógica para guardar el archivo del curso
+        @cursos = Curso.all
+        render partial: 'shared/cursos_list', locals: { cursos: @cursos }, notice: 'Curso creado con éxito'
+      else
+        puts @curso.errors.full_messages
+        @cursos = Curso.all
+        render partial: 'shared/cursos_list', locals: { cursos: @cursos }, alert: 'Error al crear el curso'
+      end
+    end
+
+    
     private
     
     def curso_params

@@ -5,6 +5,7 @@ import './terminal.js'
 import './menus/MenuPrincipal.js'
 import './menus/CursosMenu.js'
 import './menus/AsignaturasMenu.js'
+import './menu_asig.js'
 
 
 
